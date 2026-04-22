@@ -1,0 +1,338 @@
+/* ====================== RESET ====================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: Georgia, 'Times New Roman', serif;
+  background: #0a0805;
+  color: #e8dcc8;
+  touch-action: manipulation;
+}
+
+/* ====================== PORTRAIT : rotation ====================== */
+#rotateMsg {
+  display: none;
+  position: fixed; inset: 0;
+  background: #0a0805;
+  z-index: 999;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: #c9a84c;
+  font-size: 18px;
+  padding: 30px;
+}
+.rotate-icon { font-size: 52px; margin-bottom: 16px; }
+
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  #rotateMsg { display: flex; }
+}
+
+/* ====================== MENU ====================== */
+#menu {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, #1c1408 0%, #0a0805 100%);
+  z-index: 50;
+}
+.menu-inner {
+  text-align: center;
+  padding: 30px 24px;
+  max-width: 420px; width: 100%;
+}
+#menu h1 {
+  font-size: 36px; letter-spacing: 3px;
+  color: #c9a84c;
+  text-shadow: 0 0 24px rgba(201,168,76,0.5);
+  margin-bottom: 8px; line-height: 1.2;
+}
+.subtitle {
+  font-size: 12px; color: #8a7a60;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.warning {
+  font-size: 12px; color: #7a6a50;
+  margin-bottom: 20px; padding: 8px 12px;
+  border: 1px solid #3a3020; border-radius: 4px;
+}
+.lang-buttons {
+  display: flex; gap: 10px; justify-content: center;
+  margin-bottom: 14px;
+}
+.lang-buttons button {
+  width: auto; padding: 9px 22px; font-size: 14px;
+  background: transparent;
+  border: 1px solid #c9a84c; color: #c9a84c;
+}
+.lang-buttons button:hover { background: #c9a84c; color: #0a0805; }
+.start-buttons { display: flex; flex-direction: column; gap: 10px; }
+.start-buttons button { padding: 13px 20px; font-size: 16px; }
+
+/* ====================== BOUTONS GLOBAL ====================== */
+button {
+  display: block; width: 100%;
+  padding: 12px 18px; font-size: 15px;
+  font-family: Georgia, serif;
+  background: rgba(201,168,76,0.1);
+  color: #e8dcc8;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 4px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 1px;
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover, button:active {
+  background: rgba(201,168,76,0.28); color: #fff;
+}
+
+/* ====================== JEU ====================== */
+#game {
+  display: none;
+  position: fixed; inset: 0;
+}
+
+/* Fond : couvre tout, fixe */
+#background {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.52) sepia(0.25);
+}
+
+/* Overlay dégradé */
+#overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.28) 55%,
+    rgba(0,0,0,0.04) 100%
+  );
+  z-index: 2;
+}
+
+/* Personnage : droite, toute hauteur */
+#character {
+  position: absolute;
+  bottom: 0; right: 3%;
+  height: 90%; max-height: 100%;
+  object-fit: contain;
+  z-index: 3;
+  filter: drop-shadow(0 0 18px rgba(0,0,0,0.85));
+  display: none;
+}
+
+/* Zone de contenu : bas gauche, largeur 55% max */
+#gameContent {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 58%;
+  z-index: 4;
+  padding: 0 16px 20px 16px;
+}
+
+/* Nom du personnage */
+#speakerName {
+  font-size: 14px;
+  color: #c9a84c;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  padding-left: 4px;
+  min-height: 18px;
+}
+
+/* Boîte de dialogue */
+#textBox {
+  background: rgba(0,0,0,0.65);
+  border-left: 3px solid #c9a84c;
+  border-radius: 0 6px 6px 0;
+  padding: 14px 16px 10px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#text {
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+/* Indicateur "appuyer pour continuer" */
+#tapHint {
+  display: none;
+  text-align: right;
+  font-size: 13px;
+  color: #c9a84c;
+  margin-top: 6px;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; } 50% { opacity: 0.15; }
+}
+
+/* Choix */
+#choices {
+  display: flex; flex-direction: column; gap: 7px;
+}
+
+/* Zone saisie */
+#inputZone { display: none; }
+#question {
+  font-size: 13px; color: #c9a84c;
+  margin-bottom: 8px; line-height: 1.4;
+}
+.input-row { display: flex; gap: 8px; }
+#userInput {
+  flex: 1;
+  padding: 11px 13px; font-size: 16px;
+  font-family: Georgia, serif;
+  background: rgba(0,0,0,0.75);
+  color: #e8dcc8;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 4px; outline: none;
+}
+#userInput:focus { border-color: #c9a84c; }
+#btnOK { width: auto; padding: 11px 18px; font-size: 15px; }
+
+/* ====================== BOUTON CARTE ====================== */
+#mapButton {
+  position: absolute; top: 12px; right: 12px;
+  z-index: 10; width: auto;
+  padding: 8px 14px; font-size: 12px;
+  letter-spacing: 2px;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid #c9a84c; color: #c9a84c;
+}
+#mapButton:hover { background: #c9a84c; color: #0a0805; }
+
+/* ====================== POPUP CARTE ====================== */
+#mapPopup {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 100;
+  flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 16px; gap: 14px;
+}
+#mapContent {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  max-width: 100%; max-height: 100%;
+}
+#mapContent img {
+  max-width: 100%;
+  max-height: calc(100vh - 90px);
+  object-fit: contain; border-radius: 6px;
+}
+#closeMapBtn { width: auto; min-width: 130px; padding: 11px 28px; }
+
+/* ====================== POPUP QUESTIONNAIRE ====================== */
+#questionnairePopup {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 110;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#questionnaireContent {
+  max-width: 380px; width: 100%;
+  text-align: center;
+  background: #110e08;
+  border: 1px solid #c9a84c;
+  border-radius: 8px;
+  padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+#questionnaireText {
+  font-size: 16px; line-height: 1.6;
+  margin-bottom: 6px; color: #e8dcc8;
+}
+
+/* ====================== NOTIFICATION SAVE ====================== */
+#saveNotif {
+  position: fixed;
+  top: 52px; left: 10px; right: auto;
+  background: rgba(0,0,0,0.88);
+  border: 1px solid #c9a84c;
+  color: #c9a84c;
+  font-family: Georgia, serif;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 4px;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+/* ====================== POPUP MENU EN JEU ====================== */
+#gameMenuPopup {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 110;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#gameMenuContent {
+  max-width: 320px; width: 100%;
+  background: #110e08;
+  border: 1px solid #c9a84c;
+  border-radius: 8px;
+  padding: 28px 22px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+#gmTitle {
+  text-align: center;
+  color: #c9a84c;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.gm-lang {
+  display: flex; gap: 8px;
+}
+.gm-lang button { font-size: 14px; padding: 10px; }
+#gmQuit {
+  background: transparent;
+  border-color: rgba(201,168,76,0.25);
+  color: #7a6a50;
+  font-size: 13px;
+  padding: 9px;
+  margin-top: 4px;
+}
+
+/* ====================== BARRE HAUTE ====================== */
+#topBar {
+  position: absolute;
+  top: 10px; left: 10px; right: 10px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+#topBar > *, #topRight > * { pointer-events: all; }
+#topRight { display: flex; gap: 8px; }
+ 
+#mapButton {
+  width: auto; padding: 8px 14px;
+  font-size: 12px; letter-spacing: 2px;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid #c9a84c; color: #c9a84c;
+}
+#mapButton:hover { background: #c9a84c; color: #0a0805; }
+ 
+#btnSave, #btnMenuJeu {
+  width: auto; padding: 8px 12px;
+  font-size: 16px;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid rgba(201,168,76,0.5);
+  color: #c9a84c;
+}
