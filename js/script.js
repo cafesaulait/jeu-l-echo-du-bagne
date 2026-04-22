@@ -1,3 +1,5 @@
+alert("JS chargé");
+
 // ============================================================
 // LANGUE
 // ============================================================
@@ -82,24 +84,38 @@ function setLangInGame(l) {
 
 function updateMenuLang() {
   const t = T[lang];
-  document.getElementById("menuTitle").innerText = t.title;
-  document.getElementById("menuSubtitle").innerText = t.subtitle;
-  document.getElementById("menuWarning").innerText = t.warning;
-  document.getElementById("btnCommencer").innerText = t.start;
-  document.getElementById("btnReprendre").innerText = t.resume;
-  document.getElementById("gmQuit").innerText = t.quit;
+  let el = document.getElementById("title");
+  if (el) el.innerText = t.title;
+  el = document.getElementById("menuSubtitle");
+  if (el) el.innerText = t.subtitle;
+  el = document.getElementById("menuWarning");
+  if (el) el.innerText = t.warning;
+  el = document.getElementById("btnCommencer");
+  if (el) el.innerText = t.start;
+  el = document.getElementById("btnReprendre");
+  if (el) el.innerText = t.resume;
+  el = document.getElementById("gmQuit");
+  if (el) el.innerText = t.quit;
 }
 
 function updateGameUI() {
   const t = T[lang];
-  document.getElementById("mapButton").innerText = t.map;
-  document.getElementById("closeMapBtn").innerText = t.close;
-  document.getElementById("gmTitle").innerText = t.gmTitle;
-  document.getElementById("gmResume").innerText = t.gmResume;
-  document.getElementById("gmSave").innerText = t.gmSave;
-  document.getElementById("gmLoad").innerText = t.gmLoad;
-  document.getElementById("gmQuit").innerText = t.gmQuit;
-  document.getElementById("tapHint").innerText = t.tapHint;
+  el = document.getElementById("mapButton");
+  if (el) el.innerText = t.map;
+  el = document.getElementById("closeMapBtn");
+  if (el) el.innerText = t.close;
+  el = document.getElementById("gmTitle");
+  if (el) el.innerText = t.gmTitle;
+  el = document.getElementById("gmResume");
+  if (el) el.innerText = t.gmResume;
+  el = document.getElementById("gmSave");
+  if (el) el.innerText = t.gmSave;
+  el = document.getElementById("gmLoad");
+  if (el) el.innerText = t.gmLoad;
+  el = document.getElementById("gmQuit");
+  if (el) el.innerText = t.gmQuit;
+  el = document.getElementById("tapHint");
+  if (el) el.innerText = t.tapHint;
 }
 
 // ============================================================
@@ -108,14 +124,14 @@ function updateGameUI() {
 function requestFullscreen() {
   const el = document.documentElement;
   try {
-    if      (el.requestFullscreen)       el.requestFullscreen();
+    if (el.requestFullscreen) el.requestFullscreen();
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-    else if (el.mozRequestFullScreen)    el.mozRequestFullScreen();
-    else if (el.msRequestFullscreen)     el.msRequestFullscreen();
-  } catch(e) { /* silencieux sur iOS */ }
+    else if (el.mozRequestFullScreen) el.mozRequestFullScreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  } catch (e) {
+    /* silencieux sur iOS */
+  }
 }
-// Bloquer le scroll tactile (simule plein écran sur iOS)
-document.addEventListener("touchmove", e => e.preventDefault(), { passive: false });
 
 // File de dialogues à afficher un par un
 let dialogQueue = [];
@@ -128,21 +144,23 @@ let choiceMenu = null; // si on attend un choix
 // ============================================================
 let objet_trouve = localStorage.getItem("objet_trouve") === "true";
 let repas_trouve = localStorage.getItem("repas_trouve") === "true";
- 
+
 function saveGame() {
   localStorage.setItem("save", currentScene);
   localStorage.setItem("objet_trouve", objet_trouve);
   localStorage.setItem("repas_trouve", repas_trouve);
 }
- 
+
 function showSaveNotif() {
   const n = document.getElementById("saveNotif");
   n.innerText = T[lang].saveOk;
   n.style.opacity = "1";
   clearTimeout(n._t);
-  n._t = setTimeout(() => { n.style.opacity = "0"; }, 1800);
+  n._t = setTimeout(() => {
+    n.style.opacity = "0";
+  }, 1800);
 }
- 
+
 function startGame() {
   requestFullscreen();
   currentScene = "start";
@@ -155,7 +173,7 @@ function startGame() {
   document.documentElement.requestFullscreen();
   goToScene("start");
 }
- 
+
 function loadGame() {
   requestFullscreen();
   const saved = localStorage.getItem("save");
@@ -185,7 +203,10 @@ function closeGameMenu() {
 function loadGameFromMenu() {
   closeGameMenu();
   const saved = localStorage.getItem("save");
-  if (!saved) { alert(T[lang].noSave); return; }
+  if (!saved) {
+    alert(T[lang].noSave);
+    return;
+  }
   currentScene = saved;
   objet_trouve = localStorage.getItem("objet_trouve") === "true";
   repas_trouve = localStorage.getItem("repas_trouve") === "true";
@@ -193,7 +214,9 @@ function loadGameFromMenu() {
 }
 function quitterJeu() {
   if (confirm(T[lang].confirmQuit)) {
-    try { window.close(); } catch(e) {}
+    try {
+      window.close();
+    } catch (e) {}
     // Fallback : retour au menu
     document.getElementById("game").style.display = "none";
     document.getElementById("menu").style.display = "flex";
@@ -249,6 +272,11 @@ function hideInput() {
 // msgs = [ {speaker, text, bg, char}, ... ]
 // onDone = fonction appelée quand tout est lu
 function sayMany(msgs, onDone) {
+  msgs.forEach((msg) => {
+    if (!msg.speaker) {
+      msg.speaker = "";
+    }
+  });
   dialogQueue = msgs;
   dialogIndex = 0;
   showNextDialog(onDone);
@@ -644,10 +672,10 @@ const scenes = {
         : "That's not the correct code. You move on.",
     );
     window._askFailOverride = () => {
-  objet_trouve = false;
-  window._askFailOverride = null;
-  runScene("scene_ateliers");
-};
+      objet_trouve = false;
+      window._askFailOverride = null;
+      runScene("scene_ateliers");
+    };
   },
 
   decouverte_coquillage() {
@@ -1995,4 +2023,11 @@ function closeMap() {
 // ============================================================
 // INIT
 // ============================================================
-updateMenuLang();
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    updateMenuLang();
+    // + ton init jeu ici
+  } catch (e) {
+    console.error("Erreur init jeu :", e);
+  }
+});
