@@ -1,5 +1,3 @@
-alert("JS chargé");
-
 // ============================================================
 // LANGUE
 // ============================================================
@@ -170,7 +168,7 @@ function startGame() {
   document.getElementById("menu").style.display = "none";
   document.getElementById("game").style.display = "block";
   updateGameUI();
-  document.documentElement.requestFullscreen();
+  /*document.documentElement.requestFullscreen();*/
   goToScene("start");
 }
 
