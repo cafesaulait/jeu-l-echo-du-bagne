@@ -1,3 +1,5 @@
+var iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
+
 // ============================================================
 // LANGUE
 // ============================================================
@@ -32,7 +34,8 @@ const T = {
     gmQuit: "Quitter le jeu",
     quit: "Quitter",
     confirmQuit: "Voulez-vous vraiment quitter ?",
-    questionnaireText: "Avez-vous 3 minutes pour répondre à notre questionnaire ?",
+    questionnaireText:
+      "Avez-vous 3 minutes pour répondre à notre questionnaire ?",
     questionnaireOui: "Oui, avec plaisir !",
     questionnaireNon: "Non, merci.",
     merciFin:
@@ -82,16 +85,27 @@ function setLangInGame(l) {
 
 function updateMenuLang() {
   const t = T[lang];
+
   let el = document.getElementById("title");
   if (el) el.innerText = t.title;
+  if (T[lang] === T.en) {
+    el.classList.add("en");
+  } else {
+    el.classList.remove("en");
+  }
+
   el = document.getElementById("menuSubtitle");
   if (el) el.innerText = t.subtitle;
+
   el = document.getElementById("menuWarning");
   if (el) el.innerText = t.warning;
+
   el = document.getElementById("btnCommencer");
   if (el) el.innerText = t.start;
+
   el = document.getElementById("btnReprendre");
   if (el) el.innerText = t.resume;
+
   el = document.getElementById("gmQuit");
   if (el) el.innerText = t.quit;
 }
@@ -129,6 +143,21 @@ function requestFullscreen() {
   } catch (e) {
     /* silencieux sur iOS */
   }
+}
+
+toggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    requestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  }
+};
+
+if (iOS) {
+  document.getElementById("btnFullscreen").style.display = "none";
 }
 
 // File de dialogues à afficher un par un
@@ -264,6 +293,10 @@ function hideChoices() {
 
 function hideInput() {
   document.getElementById("inputZone").style.display = "none";
+}
+
+if (iOS) {
+  document.getElementById("mapContent").style.flexDirection = "row";
 }
 
 // ---------- say() : file de messages ----------
@@ -468,11 +501,17 @@ const scenes = {
       () => {
         choice([
           {
-            label: lang === "fr" ? "Vous viviez ici, sur le campus ?" : "Did you live here, on the campus?",
+            label:
+              lang === "fr"
+                ? "Vous viviez ici, sur le campus ?"
+                : "Did you live here, on the campus?",
             next: "auguste_choix_1",
           },
           {
-            label: lang === "fr" ? "Depuis combien de temps errez-vous ici ?" : "How long have you been wandering here?",
+            label:
+              lang === "fr"
+                ? "Depuis combien de temps errez-vous ici ?"
+                : "How long have you been wandering here?",
             next: "auguste_choix_2",
           },
         ]);
@@ -524,13 +563,17 @@ const scenes = {
       () => {
         choice([
           {
-            label: lang === "fr" ? "On va vous aider à la retrouver." : "We will help you find her.",
+            label:
+              lang === "fr"
+                ? "On va vous aider à la retrouver."
+                : "We will help you find her.",
             next: "auguste_reponse_1",
           },
           {
-            label: lang === "fr"
-              ? "Vous pensez qu'elle est encore quelque part sur le campus ?"
-              : "Do you think she is still somewhere on the campus?",
+            label:
+              lang === "fr"
+                ? "Vous pensez qu'elle est encore quelque part sur le campus ?"
+                : "Do you think she is still somewhere on the campus?",
             next: "auguste_reponse_2",
           },
         ]);
@@ -641,15 +684,25 @@ const scenes = {
   // =====================
   chemin_coquillage() {
     setSpeaker("");
-    document.getElementById("text").innerText = lang === "fr"
-      ? "Sur le chemin, avez-vous trouvé un objet particulier ?"
-      : "On the way, did you find a particular object?";
+    document.getElementById("text").innerText =
+      lang === "fr"
+        ? "Sur le chemin, avez-vous trouvé un objet particulier ?"
+        : "On the way, did you find a particular object?";
     document.getElementById("tapHint").style.display = "none";
     hideInput();
     choice([
-      { label: lang === "fr" ? "Oui, j'ai trouvé quelque chose." : "Yes, I found something.", next: "saisie_coquillage" },
       {
-        label: lang === "fr" ? "Non, je n'ai rien trouvé." : "No, I didn't find anything.",
+        label:
+          lang === "fr"
+            ? "Oui, j'ai trouvé quelque chose."
+            : "Yes, I found something.",
+        next: "saisie_coquillage",
+      },
+      {
+        label:
+          lang === "fr"
+            ? "Non, je n'ai rien trouvé."
+            : "No, I didn't find anything.",
         action: () => {
           objet_trouve = false;
         },
@@ -731,9 +784,18 @@ const scenes = {
       ],
       () => {
         choice([
-          { label: lang === "fr" ? "Vous avez essayé de vous évader ?" : "Did you try to escape?", next: "raoul_choix_1" },
           {
-            label: lang === "fr" ? "Qu'est-ce que le bagne vous a appris ?" : "What did the penal colony teach you?",
+            label:
+              lang === "fr"
+                ? "Vous avez essayé de vous évader ?"
+                : "Did you try to escape?",
+            next: "raoul_choix_1",
+          },
+          {
+            label:
+              lang === "fr"
+                ? "Qu'est-ce que le bagne vous a appris ?"
+                : "What did the penal colony teach you?",
             next: "raoul_choix_2",
           },
         ]);
@@ -862,8 +924,7 @@ const scenes = {
           fr: "Ce fut un honneur de vous rencontrer. Prenez soin de vous, dans ce monde si compliqué qui est le vôtre.",
           en: "It was an honour to meet you. Take care of yourselves, in that complicated world of yours.",
         },
-      },
-      { char: null, text: "" },
+      }
     );
 
     sayMany(msgs, () => goto("mot_de_passe_dortoirs"));
@@ -1022,8 +1083,7 @@ const scenes = {
             fr: "La femme d'un surveillant… Non, pas par ici. Mais allez voir du côté de la boulangerie. Jean Honoré y tient compagnie depuis des années. Il parle à tout le monde, lui. Si elle est passée dans les parages, il le sait sûrement.",
             en: "A guard's wife… No, not around here. But go and check near the bakery. Jean Honoré has kept company there for years. He talks to everyone, that one. If she passed by, he would surely know.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("mot_de_passe_boulangerie"),
     );
@@ -1075,9 +1135,18 @@ const scenes = {
       ],
       () => {
         choice([
-          { label: lang === "fr" ? "Le pain était important pour eux ?" : "Was bread important to them?", next: "jean_choix_1" },
           {
-            label: lang === "fr" ? "Comment supportiez-vous la vie ici ?" : "How did you cope with life here?",
+            label:
+              lang === "fr"
+                ? "Le pain était important pour eux ?"
+                : "Was bread important to them?",
+            next: "jean_choix_1",
+          },
+          {
+            label:
+              lang === "fr"
+                ? "Comment supportiez-vous la vie ici ?"
+                : "How did you cope with life here?",
             next: "jean_choix_2",
           },
         ]);
@@ -1144,8 +1213,7 @@ const scenes = {
             fr: "La villa du commandant, peut-être ? Louis y rôde encore. Il en sait plus que moi sur ce qui se passait là-haut.",
             en: "The commander's villa, perhaps? Louis still lingers there. He knows more than I do about what went on up there.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("chemin_repas"),
     );
@@ -1158,12 +1226,19 @@ const scenes = {
     setBg("boulangerie_modif.jpg");
     setChar(null);
     setSpeaker("");
-    document.getElementById("text").innerText = lang === "fr"
-      ? "Avez-vous trouvé un objet près de la boulangerie ?"
-      : "Did you find an object near the bakery?";
+    document.getElementById("text").innerText =
+      lang === "fr"
+        ? "Avez-vous trouvé un objet près de la boulangerie ?"
+        : "Did you find an object near the bakery?";
     hideInput();
     choice([
-      { label: lang === "fr" ? "Oui, j'ai trouvé quelque chose." : "Yes, I found something.", next: "saisie_repas" },
+      {
+        label:
+          lang === "fr"
+            ? "Oui, j'ai trouvé quelque chose."
+            : "Yes, I found something.",
+        next: "saisie_repas",
+      },
       {
         label: lang === "fr" ? "Non, rien trouvé." : "No, nothing found.",
         action: () => {
@@ -1181,7 +1256,9 @@ const scenes = {
         : "Scan the object and enter the password (in French):",
       "repas",
       "decouverte_repas",
-      lang === "fr" ? "Ce n'est pas le bon code." : "That's not the correct code.",
+      lang === "fr"
+        ? "Ce n'est pas le bon code."
+        : "That's not the correct code.",
     );
     window._askFailOverride = () => {
       repas_trouve = false;
@@ -1274,9 +1351,15 @@ const scenes = {
       ],
       () => {
         choice([
-          { label: lang === "fr" ? "Qui est Joseline ?" : "Who is Joseline?", next: "louis_choix_1" },
           {
-            label: lang === "fr" ? "Depuis combien de temps cherchez-vous ?" : "How long have you been searching?",
+            label: lang === "fr" ? "Qui est Joseline ?" : "Who is Joseline?",
+            next: "louis_choix_1",
+          },
+          {
+            label:
+              lang === "fr"
+                ? "Depuis combien de temps cherchez-vous ?"
+                : "How long have you been searching?",
             next: "louis_choix_2",
           },
         ]);
@@ -1330,8 +1413,7 @@ const scenes = {
             fr: "S'il vous plaît… Si vous la croisez, dites-lui que je suis là. Que je ne suis allé nulle part. Que je l'attends.",
             en: "Please… If you come across her, tell her I am here. That I have gone nowhere. That I am waiting for her.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("mot_de_passe_joseline"),
     );
@@ -1499,8 +1581,7 @@ const scenes = {
             fr: "Pour la première fois, elle sourit vraiment.",
             en: "For the first time, she truly smiles.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("mot_de_passe_retrouvailles"),
     );
@@ -1560,8 +1641,7 @@ const scenes = {
             fr: "Vous les regardez un instant. Puis vous faites demi-tour, doucement, pour ne pas les déranger. Il y a encore quelqu'un qui vous attend.",
             en: "You watch them for a moment. Then you turn around, gently, so as not to disturb them. There is still someone waiting for you.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("mot_de_passe_port"),
     );
@@ -1704,8 +1784,7 @@ const scenes = {
             fr: "Vous pensez à Auguste, qui attend sous le banian. Cette nouvelle va lui faire du bien et du mal à la fois.",
             en: "You think of Auguste, waiting under the banyan tree. This news will bring him both comfort and pain.",
           },
-        },
-        { char: null, text: "" },
+        }
       ],
       () => goto("mot_de_passe_banian"),
     );
@@ -1901,9 +1980,10 @@ const scenes = {
     setBg("banian_modif.jpg");
     setChar(null);
     setSpeaker("");
-    document.getElementById("text").innerText = lang === "fr"
-      ? "Merci d'avoir participé à notre parcours !\nNous espérons que cela vous a plu."
-      : "Thank you for being part of our course!\nWe hope you enjoyed it.";
+    document.getElementById("text").innerText =
+      lang === "fr"
+        ? "Merci d'avoir participé à notre parcours !\nNous espérons que cela vous a plu."
+        : "Thank you for being part of our course!\nWe hope you enjoyed it.";
     hideInput();
     // Effacer la save pour un prochain début propre
     localStorage.removeItem("save");
@@ -1934,16 +2014,18 @@ function afficherQuestionnaire() {
 function ouvrirQuestionnaire() {
   document.getElementById("questionnairePopup").style.display = "none";
   window.open("https://sphinx-campus.com/tiny/a/nn2l2sdx", "_blank");
-  document.getElementById("text").innerText = lang === "fr"
-    ? "Merci beaucoup pour votre retour, ça nous aide vraiment !\nVenez nous retrouver à notre stand sur l'agora de l'université."
-    : "Thank you so much for your feedback, it really helps us!\nDo not hesitate to meet us at our booth in the university's agora.";
+  document.getElementById("text").innerText =
+    lang === "fr"
+      ? "Merci beaucoup pour votre retour, ça nous aide vraiment !\nVenez nous retrouver à notre stand sur l'agora de l'université."
+      : "Thank you so much for your feedback, it really helps us!\nDo not hesitate to meet us at our booth in the university's agora.";
 }
 
 function fermerQuestionnaire() {
   document.getElementById("questionnairePopup").style.display = "none";
-  document.getElementById("text").innerText = lang === "fr"
-    ? "Pas de souci, merci quand même d'avoir joué !\nVenez nous retrouver à notre stand sur l'agora si vous avez des questions ou des retours."
-    : "No problem, thanks still for playing!\nCome and meet us at our booth in the agora if you have any questions or feedback.";
+  document.getElementById("text").innerText =
+    lang === "fr"
+      ? "Pas de souci, merci quand même d'avoir joué !\nVenez nous retrouver à notre stand sur l'agora si vous avez des questions ou des retours."
+      : "No problem, thanks still for playing!\nCome and meet us at our booth in the agora if you have any questions or feedback.";
 }
 
 // ============================================================

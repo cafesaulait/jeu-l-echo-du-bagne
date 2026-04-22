@@ -47,6 +47,9 @@ html, body {
   text-shadow: 0 0 24px rgba(201,168,76,0.5);
   margin-bottom: 8px; line-height: 1.2;
 }
+#menu .en {
+  font-size: 21px;
+}
 .subtitle {
   font-size: 12px; color: #8a7a60;
   letter-spacing: 2px; text-transform: uppercase;
@@ -112,6 +115,8 @@ button:hover, button:active {
     rgba(0,0,0,0.04) 100%
   );
   z-index: 2;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* Personnage : droite, toute hauteur */
@@ -123,6 +128,7 @@ button:hover, button:active {
   z-index: 3;
   filter: drop-shadow(0 0 18px rgba(0,0,0,0.85));
   display: none;
+  pointer-events: none;
 }
 
 /* Zone de contenu : bas gauche, largeur 55% max */
@@ -142,6 +148,7 @@ button:hover, button:active {
   margin-bottom: 4px;
   padding-left: 4px;
   min-height: 18px;
+  user-select: none;
 }
 
 /* Boîte de dialogue */
@@ -159,6 +166,7 @@ button:hover, button:active {
   font-size: 15px;
   line-height: 1.65;
   white-space: pre-line;
+  user-select: none;
 }
 
 /* Indicateur "appuyer pour continuer" */
@@ -180,10 +188,13 @@ button:hover, button:active {
 }
 
 /* Zone saisie */
-#inputZone { display: none; }
+#inputZone { 
+  display: none;
+}
 #question {
   font-size: 13px; color: #c9a84c;
   margin-bottom: 8px; line-height: 1.4;
+  user-select: none;
 }
 .input-row { display: flex; gap: 8px; }
 #userInput {
@@ -329,7 +340,7 @@ button:hover, button:active {
 }
 #mapButton:hover { background: #c9a84c; color: #0a0805; }
  
-#btnSave, #btnMenuJeu {
+#btnSave, #btnMenuJeu, #btnFullscreen {
   width: auto; padding: 8px 12px;
   font-size: 16px;
   background: rgba(0,0,0,0.8);
