@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>L'Écho du Bagne</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- MESSAGE ROTATION (portrait uniquement) -->
+<div id="rotateMsg">
+  <div class="rotate-inner">
+    <div class="rotate-icon">📱</div>
+    <p>Tournez votre téléphone pour jouer</p>
+    <p style="font-size:13px; opacity:0.6; margin-top:8px;">Rotate your phone to landscape</p>
+  </div>
+</div>
+
+<!-- ===== MENU ===== -->
+<div id="menu">
+  <div class="menu-inner">
+    <h1 id="title" class="title">L'Écho du Bagne</h1>
+    <p id="menuSubtitle" class="subtitle">Une enquête sur le campus de Nouville</p>
+    <p id="menuWarning" class="warning">⚠️ Ne fermez pas la page pendant votre exploration</p>
+    <div class="lang-buttons">
+      <button onclick="setLang('fr')">Français</button>
+      <button onclick="setLang('en')">English</button>
+    </div>
+    <div class="start-buttons">
+      <button id="btnCommencer" onclick="startGame()">Commencer</button>
+      <button id="btnReprendre" onclick="loadGame()">Reprendre</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== JEU ===== -->
+<div id="game">
+  <img id="background" src="" alt="">
+  <div id="overlay"></div>
+  <img id="character" src="" alt="">
+
+  <div id="gameContent">
+    <!-- Nom du personnage qui parle -->
+    <div id="speakerName"></div>
+    <!-- Boîte de dialogue -->
+    <div id="textBox">
+      <div id="text"></div>
+      <div id="tapHint">▼</div>
+    </div>
+    <!-- Choix -->
+    <div id="choices"></div>
+    <!-- Saisie mot de passe -->
+    <div id="inputZone">
+      <p id="question"></p>
+      <div class="input-row">
+        <input type="text" id="userInput" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
+        <button id="btnOK" onclick="submitInput()">OK</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Barre haute -->
+  <div id="topBar">
+    <button id="mapButton" onclick="openMap()">CARTE</button>
+    <div id="topRight">
+      <button id="btnSave" onclick="saveGame(); showSaveNotif();" title="Sauvegarder">💾</button>
+      <button id="btnMenuJeu" onclick="openGameMenu()" title="Menu">☰</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- ===== POPUP CARTE ===== -->
+<div id="mapPopup">
+  <div id="mapContent">
+    <img src="img/map.png" alt="Carte du campus">
+    <button id="closeMapBtn" onclick="closeMap()">FERMER</button>
+  </div>
+</div>
+ 
+<!-- ===== POPUP MENU EN JEU ===== -->
+<div id="gameMenuPopup">
+  <div id="gameMenuContent">
+    <h2 id="gmTitle">Menu</h2>
+    <button id="gmResume"  onclick="closeGameMenu()">Reprendre la partie</button>
+    <button id="gmSave"    onclick="saveGame(); showSaveNotif(); closeGameMenu();">Sauvegarder</button>
+    <button id="gmLoad"    onclick="loadGameFromMenu()">Charger la sauvegarde</button>
+    <div class="gm-lang">
+      <button onclick="setLangInGame('fr')">Français</button>
+      <button onclick="setLangInGame('en')">English</button>
+    </div>
+    <button id="gmQuit" onclick="quitterJeuDepuisJeu()">Quitter le jeu</button>
+  </div>
+</div>
+ 
+<!-- ===== NOTIFICATION SAVE ===== -->
+<div id="saveNotif"></div>
+
+
+<!-- ===== POPUP QUESTIONNAIRE ===== -->
+<div id="questionnairePopup">
+  <div id="questionnaireContent">
+    <p id="questionnaireText"></p>
+    <button id="btnQuestionnaireOui" onclick="ouvrirQuestionnaire()"></button>
+    <button id="btnQuestionnaireNon" onclick="fermerQuestionnaire()"></button>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
