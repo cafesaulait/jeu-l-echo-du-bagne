@@ -968,14 +968,14 @@ const scenes = {
         },
         {
           text: {
-            fr: "Vue quoi ?",
+            fr: "Vue quoi ? Les quenouilles ?!",
             en: "Seen what?",
           },
         },
         {
           speaker: "Macé",
           text: {
-            fr: "Ma guillotine… elle est encore là ? Est-ce qu'ils l'ont déplacée ?",
+            fr: "De quoi ? Non ! Ma guillotine… elle est encore là ? Est-ce qu'ils l'ont déplacée ?",
             en: "My guillotine… is it still there? Have they moved it?",
           },
         },
