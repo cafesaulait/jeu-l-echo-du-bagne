@@ -88,11 +88,6 @@ function updateMenuLang() {
 
   let el = document.getElementById("title");
   if (el) el.innerText = t.title;
-  if (T[lang] === T.en) {
-    el.classList.add("en");
-  } else {
-    el.classList.remove("en");
-  }
 
   el = document.getElementById("menuSubtitle");
   if (el) el.innerText = t.subtitle;

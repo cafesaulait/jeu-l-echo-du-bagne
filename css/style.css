@@ -65,7 +65,7 @@ html, body {
   margin-bottom: 14px;
 }
 .lang-buttons button {
-  width: auto; padding: 9px 22px; font-size: 14px;
+  width: 100%; padding: 9px 22px; font-size: 14px;
   background: transparent;
   border: 1px solid #c9a84c; color: #c9a84c;
 }

@@ -29,7 +29,6 @@
     </div>
     <div class="start-buttons">
       <button id="btnCommencer" onclick="startGame()">Commencer</button>
-      <button id="btnReprendre" onclick="loadGame()">Reprendre</button>
     </div>
   </div>
 </div>
@@ -64,7 +63,6 @@
   <div id="topBar">
     <button id="mapButton" onclick="openMap()">CARTE</button>
     <div id="topRight">
-      <button id="btnSave" onclick="saveGame(); showSaveNotif();" title="Sauvegarder">💾</button>
       <button id="btnMenuJeu" onclick="openGameMenu()" title="Menu">☰</button>
       <button id="btnFullscreen" onclick="toggleFullscreen()" title="Plein écran">⛶</button>
     </div>
@@ -84,12 +82,11 @@
   <div id="gameMenuContent">
     <h2 id="gmTitle">Menu</h2>
     <button id="gmResume"  onclick="closeGameMenu()">Reprendre la partie</button>
-    <button id="gmSave"    onclick="saveGame(); showSaveNotif(); closeGameMenu();">Sauvegarder</button>
-    <button id="gmLoad"    onclick="loadGameFromMenu()">Charger la sauvegarde</button>
     <div class="gm-lang">
       <button onclick="setLangInGame('fr')">Français</button>
       <button onclick="setLangInGame('en')">English</button>
     </div>
+    <button id="gmMainMenu" onclick="window.location.reload()">Retour au menu principal</button>
     <button id="gmQuit" onclick="quitterJeuDepuisJeu()">Quitter le jeu</button>
   </div>
 </div>
