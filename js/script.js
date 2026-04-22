@@ -34,8 +34,7 @@ const T = {
     gmQuit: "Quitter le jeu",
     quit: "Quitter",
     confirmQuit: "Voulez-vous vraiment quitter ?",
-    questionnaireText:
-      "Avez-vous 3 minutes pour répondre à notre questionnaire ?",
+    questionnaireText: "Avez-vous 3 minutes pour répondre à notre questionnaire ?",
     questionnaireOui: "Oui, avec plaisir !",
     questionnaireNon: "Non, merci.",
     merciFin:
@@ -133,10 +132,6 @@ function requestFullscreen() {
     /* silencieux sur iOS */
   }
 }
-// Bloquer le scroll tactile (simule plein écran sur iOS)
-document.addEventListener("touchmove", (e) => e.preventDefault(), {
-  passive: false,
-});
 
 // File de dialogues à afficher un par un
 let dialogQueue = [];
